@@ -15,6 +15,10 @@ def test():
 	dispatcher = updater.dispatcher
 	handle_message_handler = CommandHandler('move', Commands().handle_message)
 	dispatcher.add_handler(handle_message_handler)
+
+	raw_data_handler = CommandHandler('rawdata', Commands().get_raw_data)
+	dispatcher.add_handler(raw_data_handler)
+	
 	print("Janus online")
 	updater.start_polling()
 	updater.idle

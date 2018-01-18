@@ -1,0 +1,13 @@
+[Unit] 
+Description=CryptoKitties TG Bot service
+After=multi-user.target 
+
+[Service]
+Type=idle
+WorkingDirectory = /home/elanor/ftp/files/janus-live/Janus/src
+User=root
+Group=root
+ExecStart=/usr/bin/python3 janus.py 
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+{
+	"error_channel":"#some error ch id",
+	"movable_channel":{
+		"spam": {
+					"id": "#some ch id",
+					"name":"CryptoSG Spam Channel",
+					"url": "https://t.me/CryptoSGspam"
+				}
+	}
+}

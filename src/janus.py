@@ -10,7 +10,7 @@ from commands import Commands
 from modules.config import Configuration
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,Job, MessageHandler, Filters, RegexHandler, ConversationHandler
 
-def test():
+def janus():
 	updater = Updater(token=Configuration().get_bot_token())
 	dispatcher = updater.dispatcher
 	j = dispatcher.job_queue
@@ -25,4 +25,4 @@ def test():
 	updater.idle
 
 if __name__ == "__main__":
-	test()
+	janus()

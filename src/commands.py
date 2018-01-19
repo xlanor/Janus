@@ -13,7 +13,7 @@ from modules.config import Configuration
 
 class Commands():
 	def __init__(self):
-		self.approved = [-] 
+		self.approved = ["-"]
 		self.channels = ["spam","otc"]
 
 	def get_admins_list(self,bot,update):

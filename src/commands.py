@@ -7,14 +7,14 @@
 import traceback
 import json
 from telegram import ReplyKeyboardMarkup,ChatAction,InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,Job,ConversationHandler
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, Job , ConversationHandler
 from contextlib import closing
 from modules.config import Configuration
 
 class Commands():
 	def __init__(self):
-		self.approved = []#mainch 
-		self.channels = ["spam"]
+		self.approved = [-] 
+		self.channels = ["spam","otc"]
 
 	def get_admins_list(self,bot,update):
 		try:
@@ -31,14 +31,18 @@ class Commands():
 			catcherror = traceback.format_exc()
 			bot.sendMessage(chat_id=Configuration().error_channel(),text=catcherror,parse_mode='HTML')
 
-	def handle_message(self,bot,update):
+	def handle_message(self,bot,update,job_queue):
 		try:
+			print (update)
+			user_sent_message = update.message.message_id
 			if update.message.chat_id in self.approved:
 				try:
 					replied_message = update.message.reply_to_message.message_id
 				except AttributeError:
 					message = "You need to select a message to move!"
-					update.message.reply_text(message,parse_mode='HTML')
+					nomsg = update.message.reply_text(message,parse_mode='HTML')
+					context = [update.message.chat_id,nomsg.message_id]
+					job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 				else:
 					admin_list = self.get_admins_list(bot,update)
 					if update.message.from_user.id in admin_list:
@@ -47,20 +51,33 @@ class Commands():
 						try:
 							param[1]
 						except IndexError:
-							update.message.reply_text("You need to enter a parameter!",parse_mode='HTML')
+							indexmsg = update.message.reply_text("You need to enter a parameter!",parse_mode='HTML')
+							context = [update.message.chat_id,indexmsg.message_id]
+							job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
+
 						else:
 							param = param[1].lower()
 							if param in self.channels:
 								self.move_to_channel(bot,update,param)
 							else:
-								self.parameters(bot,update)
+								self.parameters(bot,update,job_queue)
 
 					else:
 						message = "You aren't an administrator in this group!"
-						update.message.reply_text(message,parse_mode='HTML')
+						notadmin = update.message.reply_text(message,parse_mode='HTML')
+						context = [update.message.chat_id,notadmin.message_id]
+						job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 
+				context = [update.message.chat_id,user_sent_message]
+				job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 			else:
-				update.message.reply_text("This bot can only be used to move messages in CryptoSG!",parse_mode='HTMl')
+				wrongch = update.message.reply_text("This bot can only be used to move messages in CryptoSG!",parse_mode='HTMl')
+
+				context = [update.message.chat_id,wrongch.message_id]
+				job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
+
+				context = [update.message.chat_id,user_sent_message]
+				job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 			
 
 		except Exception as e: 
@@ -75,6 +92,11 @@ class Commands():
 				ch_id = Configuration().spam_channel()
 				ch_name = Configuration().spam_channel_name()
 				ch_url = Configuration().spam_channel_url()
+
+			elif type_of_ch == "otc":
+				ch_id = Configuration().otc_channel()
+				ch_name = Configuration().otc_channel_name()
+				ch_url = Configuration().otc_channel_url()
 
 			username = update.message.reply_to_message.from_user.username if update.message.reply_to_message.from_user.username else update.message.reply_to_message.from_user.first_name
 			reply_to_message = update.message.reply_to_message.text 
@@ -94,7 +116,7 @@ class Commands():
 			catcherror = traceback.format_exc()
 			bot.sendMessage(chat_id=Configuration().error_channel(),text=catcherror,parse_mode='HTML')
 
-	def parameters(self,bot,update):
+	def parameters(self,bot,update,job_queue):
 		try:
 			message = "These are a list of params that admins can use with /move\n\n"
 			for param in self.channels:
@@ -102,7 +124,21 @@ class Commands():
 				message += param
 				message += "\n"
 
-			bot.sendMessage(chat_id=update.message.chat_id,text=message,parse_mode='HTML')
+			parammsg = bot.sendMessage(chat_id=update.message.chat_id,text=message,parse_mode='HTML')
+
+			context = [update.message.chat_id,parammsg.message_id]
+			job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
+
+		except Exception as e: 
+			#while all encompassing exceptions are not good, we dont want to rr our bot each time.
+			# we log and send to erro rch for debugging
+			catcherror = traceback.format_exc()
+			bot.sendMessage(chat_id=Configuration().error_channel(),text=catcherror,parse_mode='HTML')
+
+
+	def delete_message_queue(self,bot,job):
+		try:
+			bot.delete_message(chat_id = job.context[0],message_id = job.context[1])
 
 		except Exception as e: 
 			#while all encompassing exceptions are not good, we dont want to rr our bot each time.

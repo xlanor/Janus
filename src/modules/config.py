@@ -30,13 +30,19 @@ class Configuration():
 			with open(chan_file,'r',encoding='utf-8') as chan_json_data:
 				movabled = json.load(chan_json_data)
 		except FileNotFoundError:
-			self.movable_chan = "-" #this will cause bot to error
+			self.spam_chan = "-" #this will cause bot to error
 			self.spam_chan_name = "-"
 			self.spam_chan_url = "-"
+			self.otc_chan =  "-"
+			self.otc_chan_name = "-"
+			self.otc_chan_url = "-"
 		else:
 			self.spam_chan = chand["movable_channel"]["spam"]["id"]
 			self.spam_chan_name = chand["movable_channel"]["spam"]["name"]
 			self.spam_chan_url = chand["movable_channel"]["spam"]["url"]
+			self.otc_chan = chand["movable_channel"]["otc"]["id"]
+			self.otc_chan_name = chand["movable_channel"]["otc"]["name"]
+			self.otc_chan_url = chand["movable_channel"]["otc"]["url"]
 
 	def get_bot_token(self):
 		return self.token
@@ -52,3 +58,12 @@ class Configuration():
 
 	def spam_channel_url(self):
 		return self.spam_chan_url
+
+	def otc_channel(self):
+		return self.otc_chan
+
+	def otc_channel_name(self):
+		return self.otc_chan_name
+
+	def otc_channel_url(self):
+		return self.otc_chan_url

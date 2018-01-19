@@ -13,7 +13,7 @@ from modules.config import Configuration
 
 class Commands():
 	def __init__(self):
-		self.approved = [#main channel here] 
+		self.approved = []#mainch 
 		self.channels = ["spam"]
 
 	def get_admins_list(self,bot,update):

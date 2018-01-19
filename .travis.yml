@@ -1,0 +1,13 @@
+language: python
+
+python:
+    - 3.4
+    - 3.5
+    - 3.6
+
+script:
+    - python setup.py build
+    - python setup.py install
+
+after_success:
+    - python3 src/janus.py

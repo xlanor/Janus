@@ -13,7 +13,8 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,Job, Mess
 def test():
 	updater = Updater(token=Configuration().get_bot_token())
 	dispatcher = updater.dispatcher
-	handle_message_handler = CommandHandler('move', Commands().handle_message)
+	j = dispatcher.job_queue
+	handle_message_handler = CommandHandler('move', Commands().handle_message,pass_job_queue=True)
 	dispatcher.add_handler(handle_message_handler)
 
 	raw_data_handler = CommandHandler('rawdata', Commands().get_raw_data)

@@ -5,6 +5,11 @@
 					"id": "#some ch id",
 					"name":"CryptoSG Spam Channel",
 					"url": "https://t.me/CryptoSGspam"
+				},
+		"otc": {
+					"id":"somechid",
+					"name":"CryptoSG OTC Channel",
+					"url":"https://t.me/CryptoSGOTC"
 				}
 	}
 }

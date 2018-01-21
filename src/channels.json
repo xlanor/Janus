@@ -10,6 +10,16 @@
 					"id":"somechid",
 					"name":"CryptoSG OTC Channel",
 					"url":"https://t.me/CryptoSGOTC"
+				},
+		"onboarding":{
+					"id":"somechid",
+					"name":"CryptoSG Onboarding Channel",
+					"url":"https://t.me/CryptoSGonboarding"
+				},
+		"lambo":{
+					"id":"somechid",
+					"name":"CryptoSG Lambo Channel",
+					"url":"https://t.me/cryptosglambo"
 				}
 	}
 }

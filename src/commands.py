@@ -14,7 +14,7 @@ from modules.config import Configuration
 class Commands():
 	def __init__(self):
 		self.approved = ["-"]
-		self.channels = ["spam","otc"]
+		self.channels = ["spam","otc","lambo","onboarding"]
 
 	def get_admins_list(self,bot,update):
 		try:
@@ -35,6 +35,7 @@ class Commands():
 		try:
 			print (update)
 			user_sent_message = update.message.message_id
+			admin_list = self.get_admins_list(bot,update)
 			if update.message.chat_id in self.approved:
 				try:
 					replied_message = update.message.reply_to_message.message_id
@@ -44,7 +45,6 @@ class Commands():
 					context = [update.message.chat_id,nomsg.message_id]
 					job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 				else:
-					admin_list = self.get_admins_list(bot,update)
 					if update.message.from_user.id in admin_list:
 						param = update.message.text
 						param = param.split()
@@ -61,23 +61,18 @@ class Commands():
 								self.move_to_channel(bot,update,param)
 							else:
 								self.parameters(bot,update,job_queue)
-
-					else:
-						message = "You aren't an administrator in this group!"
-						notadmin = update.message.reply_text(message,parse_mode='HTML')
-						context = [update.message.chat_id,notadmin.message_id]
-						job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
-
+								
 				context = [update.message.chat_id,user_sent_message]
 				job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
-			else:
-				wrongch = update.message.reply_text("This bot can only be used to move messages in CryptoSG!",parse_mode='HTMl')
+			else
+				if update.message.from_user.id in admin_list:
+					wrongch = update.message.reply_text("This bot can only be used to move messages in CryptoSG!",parse_mode='HTMl')
 
-				context = [update.message.chat_id,wrongch.message_id]
-				job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
+					context = [update.message.chat_id,wrongch.message_id]
+					job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 
-				context = [update.message.chat_id,user_sent_message]
-				job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
+					context = [update.message.chat_id,user_sent_message]
+					job_queue.run_once(self.delete_message_queue, 10, context= context, name="Delete params")
 			
 
 		except Exception as e: 
@@ -97,6 +92,16 @@ class Commands():
 				ch_id = Configuration().otc_channel()
 				ch_name = Configuration().otc_channel_name()
 				ch_url = Configuration().otc_channel_url()
+
+			elif type_of_ch == "lambo":
+				ch_id = Configuration().lambo_channel()
+				ch_name = Configuration().lambo_channel_name()
+				ch_url = Configuration().lambo_channel_url()
+
+			elif type_of_ch == "onboarding":
+				ch_id = Configuration().onboarding_channel()
+				ch_name = Configuration().onboarding_channel_name()
+				ch_url = Configuration().onboarding_channel_url()
 
 			username = update.message.reply_to_message.from_user.username if update.message.reply_to_message.from_user.username else update.message.reply_to_message.from_user.first_name
 			reply_to_message = update.message.reply_to_message.text 

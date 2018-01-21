@@ -8,4 +8,8 @@ This bot is inspired by [roolbot](https://github.com/bvanrijn/rules-bot)
 
 Thanks to [Python-Telegram-Bot](https://github.com/python-telegram-bot/python-telegram-bot).
 
-Currently, this bot moves offtopic messages from CryptoSG to CryptoSGSpam
+This bot supports the movement of messages from the main channel to
+- Spam
+- Lambo
+- OTC
+- Onboarding

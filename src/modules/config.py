@@ -43,6 +43,17 @@ class Configuration():
 			self.otc_chan = chand["movable_channel"]["otc"]["id"]
 			self.otc_chan_name = chand["movable_channel"]["otc"]["name"]
 			self.otc_chan_url = chand["movable_channel"]["otc"]["url"]
+			self.onboarding_chan = chand["movable_channel"]["onboarding"]["id"]
+			self.onboarding_chan_name = chand["movable_channel"]["onboarding"]["name"]
+			self.onboarding_chan_url = chand["movable_channel"]["onboarding"]["url"]
+			self.lambo_chan = chand["movable_channel"]["lambo"]["id"]
+			self.lambo_chan_name = chand["movable_channel"]["lambo"]["name"]
+			self.lambo_chan_url = chand["movable_channel"]["lambo"]["url"]
+			self.ico_chan = chand["movable_channel"]["ico"]["id"]
+			self.ico_chan_name = chand["movable_channel"]["ico"]["name"]
+			self.ico_chan_url = chand["movable_channel"]["ico"]["url"]
+
+
 
 	def get_bot_token(self):
 		return self.token
@@ -67,3 +78,30 @@ class Configuration():
 
 	def otc_channel_url(self):
 		return self.otc_chan_url
+
+	def onboarding_channel(self):
+		return self.onboarding_chan
+
+	def onboarding_channel_name(self):
+		return self.onboarding_chan_name
+
+	def onboarding_channel_url(self):
+		return self.onboarding_chan_url
+
+	def lambo_channel(self):
+		return self.lambo_chan
+
+	def lambo_channel_name(self):
+		return self.lambo_chan_name
+
+	def lambo_channel_url(self):
+		return self.lambo_chan_url
+		
+	def ico_channel(self):
+		return self.ico_chan
+
+	def ico_channel_name(self):
+		return self.ico_chan_name
+
+	def ico_channel_url(self):
+		return self.ico_chan_url

@@ -20,6 +20,11 @@
 					"id":"somechid",
 					"name":"CryptoSG Lambo Channel",
 					"url":"https://t.me/cryptosglambo"
-				}
+				},
+		"ico":{
+					"id":"somechid",
+			 		"name":"CryptoSG ICO Channel",
+			 		"url" : "https://t.me/cryptosgico"
+			 }
 	}
 }

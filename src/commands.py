@@ -14,7 +14,7 @@ from modules.config import Configuration
 class Commands():
 	def __init__(self):
 		self.approved = ["-"]
-		self.channels = ["spam","otc","lambo","onboarding"]
+		self.channels = ["spam","otc","lambo","onboarding","ico"]
 
 	def get_admins_list(self,bot,update):
 		try:
@@ -102,6 +102,11 @@ class Commands():
 				ch_id = Configuration().onboarding_channel()
 				ch_name = Configuration().onboarding_channel_name()
 				ch_url = Configuration().onboarding_channel_url()
+
+			elif type_of_ch == "ico":
+				ch_id = Configuration().ico_channel()
+				ch_name = Configuration().ico_channel_name()
+				ch_url = Configuration().ico_channel_url()
 
 			username = update.message.reply_to_message.from_user.username if update.message.reply_to_message.from_user.username else update.message.reply_to_message.from_user.first_name
 			reply_to_message = update.message.reply_to_message.text 

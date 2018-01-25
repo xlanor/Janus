@@ -97,6 +97,7 @@ class Commands():
 			ch_url = channel_array[2]
 
 			photo_array = update.message.reply_to_message.photo
+			document_array = update.message.reply_to_message.document
 			if len(photo_array) > 0:
 
 				last_index = len(photo_array) - 1
@@ -106,9 +107,16 @@ class Commands():
 				except KeyError:
 					caption = None
 				sentmessage = self.send_image(caption,bot,update,ch_id,file_id)
-				
-			else:		
-				sentmessage = self.send_message(bot,update,ch_id)
+			else:
+				try:
+					gif_id = document_array['file_id']
+				except KeyError:
+					sentmessage = self.send_message(bot,update,ch_id)
+				except TypeError:
+					sentmessage = self.send_message(bot,update,ch_id)
+				else:
+					print(gif_id)
+					sentmessage = self.send_gif(bot,update,ch_id,gif_id)
 			
 			ch_url = ''.join([ch_url,"/", str(sentmessage.message_id)]) 
 			main_message = "This message has been moved to {0}\n\n".format(ch_name)
@@ -136,6 +144,21 @@ class Commands():
 			#os.remove(photo_location)
 			return sentmessage
 
+		except Exception as e: 
+			#while all encompassing exceptions are not good, we dont want to rr our bot each time.
+			# we log and send to erro rch for debugging
+			catcherror = traceback.format_exc()
+			bot.sendMessage(chat_id=Configuration().error_channel(),text=catcherror,parse_mode='HTML')
+
+	def send_gif(self,bot,update,ch_id,file_id):
+		try:
+			username = update.message.reply_to_message.from_user.username if update.message.reply_to_message.from_user.username else update.message.reply_to_message.from_user.first_name
+			propercaption = """This message was moved here from @CryptoSG \n\n"""
+			propercaption += """@{0} sent:\n  """.format(username)
+			propercaption += """⬇️ Please continue this discussion here! ⬇️"""
+			sentmessage = bot.sendDocument(chat_id = ch_id, document = file_id,caption = propercaption)
+
+			return sentmessage
 		except Exception as e: 
 			#while all encompassing exceptions are not good, we dont want to rr our bot each time.
 			# we log and send to erro rch for debugging

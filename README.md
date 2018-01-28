@@ -8,7 +8,8 @@ This bot is inspired by [roolbot](https://github.com/bvanrijn/rules-bot)
 
 Thanks to [Python-Telegram-Bot](https://github.com/python-telegram-bot/python-telegram-bot).
 
-This bot supports the movement of messages from the main channel to
+This bot supports the movement of messages between the following channels
+- Main
 - Spam
 - Lambo
 - OTC

@@ -1,29 +1,34 @@
 {
-	"error_channel":"#some error ch id",
+	"error_channel":"-1001241650605",
 	"movable_channel":{
+		"main": {
+					"id": "-1001186117544",
+					"name": "@CryptoSG",
+					"url": "https://t.me/CryptoSG"
+				},
 		"spam": {
-					"id": "#some ch id",
-					"name":"CryptoSG Spam Channel",
+					"id": "-1001388568480",
+					"name":"@CryptoSGspam",
 					"url": "https://t.me/CryptoSGspam"
 				},
 		"otc": {
 					"id":"somechid",
-					"name":"CryptoSG OTC Channel",
+					"name":"@CryptoSGOTC",
 					"url":"https://t.me/CryptoSGOTC"
 				},
 		"onboarding":{
 					"id":"somechid",
-					"name":"CryptoSG Onboarding Channel",
+					"name":"@CryptoSGonboarding",
 					"url":"https://t.me/CryptoSGonboarding"
 				},
 		"lambo":{
 					"id":"somechid",
-					"name":"CryptoSG Lambo Channel",
+					"name":"@cryptosglambo",
 					"url":"https://t.me/cryptosglambo"
 				},
 		"ico":{
 					"id":"somechid",
-			 		"name":"CryptoSG ICO Channel",
+			 		"name":"@CryptoSGico",
 			 		"url" : "https://t.me/cryptosgico"
 			 }
 	}

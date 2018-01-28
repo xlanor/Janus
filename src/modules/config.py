@@ -52,8 +52,18 @@ class Configuration():
 			self.ico_chan = chand["movable_channel"]["ico"]["id"]
 			self.ico_chan_name = chand["movable_channel"]["ico"]["name"]
 			self.ico_chan_url = chand["movable_channel"]["ico"]["url"]
+			self.main_chan = chand["movable_channel"]["main"]["id"]
+			self.main_chan_name = chand["movable_channel"]["main"]["name"]
+			self.main_chan_url = chand["movable_channel"]["main"]["url"]
+			approved_channel = []
+			for chan,val in chand["movable_channel"].items():
+				try:
+					chid = int(val['id'])
+					approved_channel.append(chid)
+				except ValueError:
+					pass #for our dummy vals
 
-
+			self.approved_ch = approved_channel
 
 	def get_bot_token(self):
 		return self.token
@@ -105,3 +115,15 @@ class Configuration():
 
 	def ico_channel_url(self):
 		return self.ico_chan_url
+
+	def main_channel(self):
+		return self.main_chan
+
+	def main_channel_name(self):
+		return self.main_chan_name
+
+	def main_channel_url(self):
+		return self.main_chan_url
+
+	def get_all_approved_channels(self):
+		return self.approved_ch
